@@ -1,0 +1,11 @@
+header{
+    background-image:linear-gradient(to right,rgb(80, 94, 248),rgb(30, 6, 97)) ;
+}
+
+.main{
+    margin: 4px;
+}
+
+.forcast{
+    border:1px black solid;
+}
