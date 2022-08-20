@@ -21,3 +21,17 @@ header{
 .btn-secondary{
     margin-bottom: 20px;
 }
+
+
+.current-img{
+    display: inline;
+    height: 60px;
+    width: 60px;
+}
+
+
+div.fiveDayCard{
+    background-color: rgb(33, 66, 95);
+    color: white;
+    margin-right: 4px;
+}

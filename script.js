@@ -8,12 +8,16 @@ let wind = document.querySelector('#wind')
 let humidity = document.querySelector('#humidity')
 let temp = document.querySelector('#temp')
 let uv = document.querySelector('#uv')
+let currentImg =  document.querySelector('.img')
+
+let fiveday = document.querySelector('#fiveDay')
+
 
 let form = document.querySelector('form')
 
 window.addEventListener('load',event=>{
     if(localStorage.history){
-        let cities = JSON.parse(localStorage.getItem('history'))
+        let cities = JSON.parse(localStorage.getItem('history')).reverse()
         for(let city of cities){
             let button = document.createElement('button')
             button.setAttribute('class','btn btn-secondary')
@@ -44,9 +48,56 @@ async function currentWeather(f){
     let weatherapi = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${API_key}`)
     let weatherdata = await weatherapi.json()
     console.log(weatherdata)
+    let imgel = document.createElement('img')
+    imgel.setAttribute('src',`http://openweathermap.org/img/wn/${weatherdata.weather[0].icon}.png`)
+    currentImg.innerHTML = ''
+    currentImg.appendChild(imgel)
     temp.textContent = Math.floor(weatherdata.main.temp) + '°F'
     wind.textContent = weatherdata.wind.speed +' MPH'
     humidity.textContent = weatherdata.main.humidity +' %'
+
+    let fivedayf = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${API_key}`)
+    let fivedayData = await fivedayf.json()
+    console.log(fivedayData)
+    let list  =  fivedayData.list
+    console.log(list)
+    fiveday.innerHTML = ''
+    for(let i =0;i < list.length; i +=8){
+        let card = document.createElement('div')
+        card.setAttribute('class','fiveDayCard col')
+
+        let day = document.createElement('h2')
+        day.textContent = moment(list[i].dt_txt).format('l')
+
+        let img = document.createElement('img')
+        img.setAttribute('class','current-img')
+        img.setAttribute('src',`http://openweathermap.org/img/wn/${list[i].weather[0].icon}.png`)
+
+        let temp = document.createElement('p')
+        temp.textContent = `Temp: ${Math.floor(list[i].main.temp)}°f`
+
+        let wind = document.createElement('p')
+        wind.textContent = `wind: ${list[i].wind.speed} MPH`
+
+        let humidity = document.createElement('p')
+        humidity.textContent = `humidity: ${list[i].humidity} %`
+
+
+
+        card.appendChild(day)
+        card.appendChild(img)
+        card.appendChild(temp)
+        card.appendChild(wind)
+        card.appendChild(humidity)
+        
+        fiveday.appendChild(card)
+
+    }
+
+
+
+
+
     
 }
 
@@ -62,13 +113,13 @@ button.addEventListener('click',event=>{
     currentWeather(cityName)
     
     saveCity(cityName)
-   
+    city.textContent =''
     city.textContent = cityName.toUpperCase()
     form.reset()
     document.querySelector('.history').innerHTML = ''
     if(localStorage.history){
-        let cities = JSON.parse(localStorage.getItem('history'))
-        for(city of cities){
+        let cities = JSON.parse(localStorage.getItem('history')).reverse()
+        for(let city of cities){
             let button = document.createElement('button')
             button.setAttribute('class','btn btn-secondary')
             button.textContent =city
