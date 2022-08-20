@@ -9,3 +9,15 @@ header{
 .forcast{
     border:1px black solid;
 }
+
+
+.history{
+    padding: 20px;
+
+
+}
+
+
+.btn-secondary{
+    margin-bottom: 20px;
+}

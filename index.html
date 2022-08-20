@@ -12,6 +12,7 @@
        
     </head>
     <body>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
         <div class="container-fluid">
             <header class="row header">
                 <h1 class="text-center text-white">weather dashboard</h1>
@@ -24,21 +25,27 @@
                     </div>
                     <div class="row">
                         <form action="">
-                            <input type="text" class="form-control" name="city" id="city">
-                            <button class="btn btn-primary btn-block">Search</button>
+                            <input type="text" class="form-control" name="cities" id="cities">
+                            <button class="btn btn-primary w-100">Search</button>
                         </form>
                     </div>
                     <hr class="fw-bold">
-                    <div class="row">
-                        <ul class="city"></ul>
+                    <div class="row history">
+                       
+                        
                     </div>
                     
                 </div>
-                <div class="col forcast" id="result">
-                    <div class="row ">
-                        <h2>City: (date)</h2>
+                <div class="col" id="result">
+                    <div class="row forcast">
+                        <h1><span id="city">City</span> (<span class="date"></span>)</h1>
+                        <p>temp: <span></span></p>
+                        <p>wind: <span></span></p>
+                        <p>humidity: <span></span></p>
+                        <p>UV index: <span></span></p>
                     </div>
-                    <div class="row"></div>
+                    <div class="row">
+                    </div>
                 </div>
             </div>
         </div>
