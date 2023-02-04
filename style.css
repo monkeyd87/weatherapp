@@ -1,6 +1,9 @@
 header{
     background-image:linear-gradient(to right,rgb(80, 94, 248),rgb(30, 6, 97)) ;
 }
+body{
+    background-image: url('https://images.pexels.com/photos/592077/pexels-photo-592077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+}
 
 .main{
     margin: 4px;
@@ -8,11 +11,12 @@ header{
 
 .forcast{
     border:1px black solid;
+    background-color: white;
 }
 
 
 .history{
-    padding: 20px;
+    padding: 10px;
 
 
 }
@@ -31,7 +35,10 @@ header{
 
 
 div.fiveDayCard{
-    background-color: rgb(33, 66, 95);
+    backdrop-filter: blur(12px);
+    background-color: rgb(33, 66, 95,0.05);
     color: white;
     margin-right: 4px;
+    box-shadow: 5px 5px 25px 0 rgba(0, 0, 0, .1);
+    background-image: url('https://media.giphy.com/media/0bSYMoaXp8ltcKa6C0/giphy.gif');
 }

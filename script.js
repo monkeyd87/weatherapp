@@ -20,7 +20,7 @@ window.addEventListener('load',event=>{
 })
 
 function saveCity(f){
-    let history = localStorage.getItem('history')?  JSON.parse(localStorage.getItem('history')):[]
+    let history = localStorage.getItem('history')||[]
     if(!history.includes(f)){
         history.push(f)
         localStorage.setItem('history',JSON.stringify(history))
@@ -58,7 +58,7 @@ async function currentWeather(f){
         fiveday.innerHTML = ''
         for(let i =0;i < list.length; i +=8){
             let card = document.createElement('div')
-            card.setAttribute('class','fiveDayCard col')
+            card.setAttribute('class','fiveDayCard col rounded m-3')
     
             let day = document.createElement('h2')
             day.textContent = moment(list[i].dt_txt).format('l')
