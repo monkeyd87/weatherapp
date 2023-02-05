@@ -13,7 +13,7 @@
     </head>
     <body>
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
-        <div class="container-fluid">
+        <div class="container-fluid background ">
             <header class="row header">
                 <h1 class="text-center text-white">weather dashboard</h1>
             </header>
@@ -21,12 +21,12 @@
                 <div class="col-4" id="search">
                     
                     <div class="row">
-                        <h2>Search for city:</h2>
+                        <h2 class="text-light">Search for city:</h2>
                     </div>
                     <div class="row">
                         <form action="">
                             <input type="text" class="form-control" name="cities" id="cities">
-                            <button class="btn btn-primary w-100">Search</button>
+                            <button class="btn btn-primary w-100 search">Search</button>
                         </form>
                     </div>
                     <hr class="fw-bold">
@@ -38,14 +38,14 @@
                 </div>
                 <div class="col" id="result">
                     <div class="row forcast">
-                        <h1><span id="city"></span> (<span class="date"></span>) <span class="img"></span></h1>
+                        <h1><span id="city"></span> <span class="date"></span> <span class="img"></span></h1>
                         <p>temp: <span id="temp"></span></p>
                         <p>wind: <span id="wind"></span></p>
                         <p>humidity: <span id="humidity"></span></p>
                         <p>UV index: <span id="uv"></span></p>
                     </div>
+                    <h2 class="text-light">5-day forecast:</h2>
                     <div class="row" id="fiveDay">
-                        <h2>5-day forecast:</h2>
 
                     </div>
                 </div>
@@ -56,6 +56,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="script.js"></script>
+        <script src="./script.js"></script>
     </body>
 </html>

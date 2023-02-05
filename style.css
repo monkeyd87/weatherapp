@@ -3,6 +3,8 @@ header{
 }
 body{
     background-image: url('https://images.pexels.com/photos/592077/pexels-photo-592077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+
+    background-position: center;
 }
 
 .main{
@@ -22,7 +24,8 @@ body{
 }
 
 
-.btn-secondary{
+.historyBtn{
+    background-color: cornflowerblue;
     margin-bottom: 20px;
 }
 
@@ -40,5 +43,30 @@ div.fiveDayCard{
     color: white;
     margin-right: 4px;
     box-shadow: 5px 5px 25px 0 rgba(0, 0, 0, .1);
-    background-image: url('https://media.giphy.com/media/0bSYMoaXp8ltcKa6C0/giphy.gif');
+    animation: load .5s ease-in-out forwards;
+}
+
+@keyframes load {
+    0%{
+        transform: translateX(400%);
+    }
+    100%{
+        transform: translateX(0)
+    }
+    
+}
+.rain{
+    background-image: url('https://media.giphy.com/media/XRDODKRQ9S60cmqT1j/giphy.gif');
+}
+
+.snow{
+    background-image: url('https://media.giphy.com/media/Wt7TnQRPaFUwbjjO4s/giphy.gif');
+}
+
+.cloudy{
+    background-image: url('https://media.giphy.com/media/YYPxi8WPv8Syl1BgS8/giphy.gif');
+}
+
+.clear{
+    background-image: url('https://media.giphy.com/media/H9IrcdhKWcg5w2fhI2/giphy.gif');
 }

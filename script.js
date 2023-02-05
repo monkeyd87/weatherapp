@@ -1,7 +1,7 @@
 let API_key = '47ed6ec2484eea6490cedb8170964c0e'
 
 let date = document.querySelector('.date');
-date.textContent = moment().format('L');
+date.textContent = moment().format('LL');
 
 let city =  document.querySelector('#city')
 let wind = document.querySelector('#wind')
@@ -19,11 +19,13 @@ window.addEventListener('load',event=>{
     load()
 })
 
-function saveCity(f){
-    let history = localStorage.getItem('history')||[]
-    if(!history.includes(f)){
-        history.push(f)
+function saveCity(city){
+    let history = JSON.parse(localStorage.getItem('history'))||[]
+    if(!history.includes(city)){
+
+        history.push(city)
         localStorage.setItem('history',JSON.stringify(history))
+
  
     }
  }
@@ -31,66 +33,93 @@ function saveCity(f){
 //  38.5810606 -121.493895
 
 
-async function currentWeather(f){
+async function currentWeather(location){
     try{
-
-        let response =  await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${f}&limit=5&appid=80a7f23b8526cb024061f7df615b33cc`)
+        fiveday.innerHTML = ''
+        let response =  await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=80a7f23b8526cb024061f7df615b33cc`)
         let data =  await response.json()
-        let lat = data[0].lat
-        let lon = data[0].lon
-        console.log(lat,lon)
-        let weatherapi = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${API_key}`)
-        let weatherdata = await weatherapi.json()
-        console.log(weatherdata)
-        let imgel = document.createElement('img')
-        imgel.setAttribute('src',`http://openweathermap.org/img/wn/${weatherdata.weather[0].icon}.png`)
-        currentImg.innerHTML = ''
-        currentImg.appendChild(imgel)
-        temp.textContent = Math.floor(weatherdata.main.temp) + '°F'
-        wind.textContent = weatherdata.wind.speed +' MPH'
-        humidity.textContent = weatherdata.main.humidity +' %'
-    
+        const {lat,lon,name}= data[0]
+        // let weatherapi = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${API_key}`)
+
         let fivedayf = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${API_key}`)
         let fivedayData = await fivedayf.json()
-        console.log(fivedayData)
-        let list  =  fivedayData.list
-        console.log(list)
-        fiveday.innerHTML = ''
-        for(let i =0;i < list.length; i +=8){
-            let card = document.createElement('div')
-            card.setAttribute('class','fiveDayCard col rounded m-3')
+        let fiveDayForcast  =  fivedayData.list
+        const weatherCurrent = fiveDayForcast[0]
+        console.log(fiveDayForcast)
+
+        
+
+
+        // let weatherdata = await weatherapi.json()
+        let imgel = document.createElement('img')
+        imgel.setAttribute('src',`http://openweathermap.org/img/wn/${weatherCurrent.weather[0].icon}.png`)
+        currentImg.innerHTML = ''
+        currentImg.appendChild(imgel)
+        city.textContent = name
+        temp.textContent = Math.floor(weatherCurrent.main.temp) + '°F'
+        wind.textContent = weatherCurrent.wind.speed +' MPH'
+        humidity.textContent = weatherCurrent.main.humidity +' %'
     
-            let day = document.createElement('h2')
-            day.textContent = moment(list[i].dt_txt).format('l')
+
+        
+        for(let i = 0;i < fiveDayForcast.length; i += 8){
+            const day = fiveDayForcast[i+3]
+            const {dt_txt,wind,main,weather} = day
+            console.log(weather[0])
+            let card = document.createElement('div')
+            card.setAttribute('class','fiveDayCard col col-2 rounded m-3')
+
+            switch(day.weather[0].main){
+                case "Rain":
+                    card.classList.add('rain')
+                    break;
+                case "Clear":
+                    card.classList.add('clear')
+                    break;
+                case "Clouds":
+                    card.classList.add('cloudy')
+                    break;
+                case "Snow":
+                    card.classList.add('snow')
+                    break;
+                    
+
+
+            }
+    
+            let date = document.createElement('h2')
+            date.textContent = moment(dt_txt).format('LL h:mm A')
     
             let img = document.createElement('img')
             img.setAttribute('class','current-img')
-            img.setAttribute('src',`http://openweathermap.org/img/wn/${list[i].weather[0].icon}.png`)
+            img.setAttribute('src',`http://openweathermap.org/img/wn/${weather[0].icon}.png`)
     
             let temp = document.createElement('p')
-            temp.textContent = `Temp: ${Math.floor(list[i].main.temp)}°f`
+            temp.textContent = `Temp: ${Math.floor(main.temp)}°f`
     
-            let wind = document.createElement('p')
-            wind.textContent = `wind: ${list[i].wind.speed} MPH`
+            let windEl = document.createElement('p')
+            windEl.textContent = `wind: ${wind.speed} MPH`
     
-            let humidity = document.createElement('p')
-            humidity.textContent = `humidity: ${list[i].humidity} %`
+            let humidityEl = document.createElement('p')
+            humidityEl.textContent = `humidity: ${main.humidity} %`
     
     
     
-            card.appendChild(day)
+            card.appendChild(date)
             card.appendChild(img)
             card.appendChild(temp)
-            card.appendChild(wind)
-            card.appendChild(humidity)
+            card.appendChild(windEl)
+            card.appendChild(humidityEl)
             
             fiveday.appendChild(card)
     
         }
-    }catch{
+    }catch(err){
+        console.log(err)
         let remove = JSON.parse(localStorage.getItem('history'))
         remove.pop()
         localStorage.setItem('history',JSON.stringify(remove))
+        city.textContent = 'city not found'
         load()
     }
 
@@ -108,7 +137,7 @@ function load(){
         let cities = JSON.parse(localStorage.getItem('history')).reverse()
         for(let city of cities){
             let button = document.createElement('button')
-            button.setAttribute('class','btn btn-secondary')
+            button.setAttribute('class','btn text-light btn-primary historyBtn')
             button.textContent =city
             button.addEventListener('click',event=>{
                 document.querySelector('#city').textContent = event.target.innerText.toUpperCase()
@@ -121,8 +150,9 @@ function load(){
 
 }
 
-let button =  document.querySelector('button')
-button.addEventListener('click',event=>{
+let searchBtn =  document.querySelector('.search')
+searchBtn.addEventListener('click',event=>{
+
     event.preventDefault()
     let formData =  new FormData(form)
     
@@ -131,8 +161,6 @@ button.addEventListener('click',event=>{
    
     
     saveCity(cityName)
-    city.textContent =''
-    city.textContent = cityName.toUpperCase()
     form.reset()
     load()
 
